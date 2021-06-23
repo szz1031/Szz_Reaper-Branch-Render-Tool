@@ -1,31 +1,7 @@
 ('D:\\Github\\Szz_Reaper-Branch-Render-Tool\\Code\\build\\Main\\PYZ-00.pyz',
- [('tokenize',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tokenize.py',
-   'PYMODULE'),
-  ('argparse',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\argparse.py',
-   'PYMODULE'),
-  ('textwrap',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\textwrap.py',
-   'PYMODULE'),
-  ('copy',
+ [('copy',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\copy.py',
-   'PYMODULE'),
-  ('gettext',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\gettext.py',
-   'PYMODULE'),
-  ('struct',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\struct.py',
-   'PYMODULE'),
-  ('token',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\token.py',
    'PYMODULE'),
   ('typing',
    'c:\\program files (x86)\\microsoft visual '
@@ -50,6 +26,18 @@
   ('doctest',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\doctest.py',
+   'PYMODULE'),
+  ('argparse',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\argparse.py',
+   'PYMODULE'),
+  ('textwrap',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\textwrap.py',
+   'PYMODULE'),
+  ('gettext',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\gettext.py',
    'PYMODULE'),
   ('unittest',
    'c:\\program files (x86)\\microsoft visual '
@@ -178,10 +166,6 @@
   ('netrc',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\netrc.py',
-   'PYMODULE'),
-  ('stat',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\stat.py',
    'PYMODULE'),
   ('mimetypes',
    'c:\\program files (x86)\\microsoft visual '
@@ -355,6 +339,14 @@
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\urllib\\parse.py',
    'PYMODULE'),
+  ('tokenize',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tokenize.py',
+   'PYMODULE'),
+  ('token',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\token.py',
+   'PYMODULE'),
   ('sysconfig',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\sysconfig.py',
@@ -499,6 +491,10 @@
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\_compat_pickle.py',
    'PYMODULE'),
+  ('struct',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\struct.py',
+   'PYMODULE'),
   ('ntpath',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\ntpath.py',
@@ -506,10 +502,6 @@
   ('fnmatch',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\fnmatch.py',
-   'PYMODULE'),
-  ('_py_abc',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\_py_abc.py',
    'PYMODULE'),
   ('stringprep',
    'c:\\program files (x86)\\microsoft visual '
@@ -523,49 +515,9 @@
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\_compression.py',
    'PYMODULE'),
-  ('tkinter.filedialog',
+  ('_py_abc',
    'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tkinter\\filedialog.py',
-   'PYMODULE'),
-  ('tkinter.commondialog',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tkinter\\commondialog.py',
-   'PYMODULE'),
-  ('tkinter.dialog',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tkinter\\dialog.py',
-   'PYMODULE'),
-  ('tkinter',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tkinter\\__init__.py',
-   'PYMODULE'),
-  ('tkinter.constants',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tkinter\\constants.py',
-   'PYMODULE'),
-  ('shutil',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\shutil.py',
-   'PYMODULE'),
-  ('zipfile',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\zipfile.py',
-   'PYMODULE'),
-  ('py_compile',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\py_compile.py',
-   'PYMODULE'),
-  ('tarfile',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tarfile.py',
-   'PYMODULE'),
-  ('gzip',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\gzip.py',
-   'PYMODULE'),
-  ('lzma',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\lzma.py',
+   'studio\\shared\\python37_64\\lib\\_py_abc.py',
    'PYMODULE'),
   ('reapy',
    'C:\\Users\\Admin\\AppData\\Roaming\\Python\\Python37\\site-packages\\reapy\\__init__.py',
@@ -844,6 +796,54 @@
    'PYMODULE'),
   ('reapy.tools._inside_reaper',
    'C:\\Users\\Admin\\AppData\\Roaming\\Python\\Python37\\site-packages\\reapy\\tools\\_inside_reaper.py',
+   'PYMODULE'),
+  ('tkinter.filedialog',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tkinter\\filedialog.py',
+   'PYMODULE'),
+  ('tkinter.commondialog',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tkinter\\commondialog.py',
+   'PYMODULE'),
+  ('tkinter.dialog',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tkinter\\dialog.py',
+   'PYMODULE'),
+  ('tkinter',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tkinter\\__init__.py',
+   'PYMODULE'),
+  ('tkinter.constants',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tkinter\\constants.py',
+   'PYMODULE'),
+  ('shutil',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\shutil.py',
+   'PYMODULE'),
+  ('zipfile',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\zipfile.py',
+   'PYMODULE'),
+  ('py_compile',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\py_compile.py',
+   'PYMODULE'),
+  ('tarfile',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tarfile.py',
+   'PYMODULE'),
+  ('gzip',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\gzip.py',
+   'PYMODULE'),
+  ('lzma',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\lzma.py',
+   'PYMODULE'),
+  ('stat',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\stat.py',
    'PYMODULE'),
   ('os',
    'c:\\program files (x86)\\microsoft visual '

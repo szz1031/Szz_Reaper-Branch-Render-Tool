@@ -1,22 +1,27 @@
 import os
-import reapy
+import stat
+#import reapy
 import time
 import shutil
 import tkinter as tk
 import tkinter.filedialog
 
+path=''   # 不提前定义global的话，函数内初始化引用会出错
+
 #---------- Set Global Vars & Functions ----------#
+
 def ConnectToReaper():
     print("1")
     varText2.set("Trying To Connect To Reaper")
     PrintLog("Trying To Connect To Reaper")
-#    try:        
-#        reapy.configure_reaper()
-#    except:
-#        PrintReaperError()
-#        PrintLog("Please Open Reaper First")
-#        PrintLog("请确保先打开Reaper再打开此软件")
-#        return
+    try:
+        import reapy
+        reapy.configure_reaper()
+    except:
+        PrintReaperError()
+        PrintLog("Reapy Configuration Failed. Please Check Python settings at 'Preference/Plug-ins/ReaScript' and Restart Reaper")
+        PrintLog("请确保Reaper处于开启状态，并且Preference/Plug-ins/ReaScript中关于python的设置都正确。修改设置后重启Reaper以及此工具")
+        return
 
     
     print("2")
@@ -42,7 +47,8 @@ def ConnectToReaper():
     
     print("5")
     varText2.set("Success To Connect To Reaper")
-    PrintLog("Success To Connect To Reaper")
+    PrintLog("----Success To Connect To Reaper----")
+    PrintLog("----连接Reaper成功，请选择需要批处理的文件夹----")
 
 def findallfiles(path):                     # 遍历文件夹的generator，包括子文件夹，返回（文件名，文件地址）
     for root,dirs,files in os.walk(path):
@@ -65,7 +71,11 @@ def SetReaperRenderSetting(proj,path):  # 设置Render参数
     RPR.GetSetProjectInfo_String(proj,"RENDER_FILE",path,1)
     RPR.GetSetProjectInfo_String(proj,"RENDER_PATTERN","temp",1)
     
-def BranchProcess():                        # 开始批处理
+def BranchProcess():# 开始批处理
+    if path =='':
+        PrintLog("----Please Choose a Folder First----")
+        PrintLog("----请先选择一个文件夹----")
+        return
     PrintLog("Prepare to Process "+ path)
     SetReaperRenderSetting(project,path)  # 设置Reaper工程的渲染参数
     RPR.SetOnlyTrackSelected(TargetTrack)  # 强制选择第一个轨道
@@ -73,18 +83,31 @@ def BranchProcess():                        # 开始批处理
         fullname = os.path.join(root,file)
         PrintLog ("Processing  " + fullname)
         RenderFileInReaper(project,fullname)
-        os.remove(fullname)    
-        shutil.move(path + r"\temp.wav" ,fullname)
-        PrintLog("Finished")
+        try:
+            os.remove(fullname)
+        except:
+            PrintLog("Try to make file writable...")
+            try:
+                os.chmod(fullname,stat.S_IWRITE)
+            except:
+                PrintLog("!!!! Failed to Process a read-only file !!!!")
+                os.remove(path + r"\temp.wav")
+                return
+            else:
+                shutil.move(path + r"\temp.wav" ,fullname)
+                PrintLog("Finished a read-only file")
+        else:   
+            shutil.move(path + r"\temp.wav" ,fullname)
+            PrintLog("Finished")
     
 def UpdatePath():                   # 用户选择文件夹路径
     global path
     PrintLog("Select Folder ...")
-    path_ = tk.filedialog.askdirectory()
+    path_ = tk.filedialog.askdirectory()   
+    if path_=='':
+        return
     path = path_
     varText1.set(path)
-    if path=='':
-        varText1.set("please select a folder")
     PrintLog ("Get Directory "+ path)
 
 def PrintLog(string):                       # 在GUI里显示Log
@@ -94,7 +117,9 @@ def PrintLog(string):                       # 在GUI里显示Log
 
 def PrintReaperError():
     varText2.set("Failed To Connect To Reaper")
-    PrintLog("Failed To Connect To Reaper")
+    PrintLog("<<<Failed To Connect To Reaper>>>")
+
+
 
 
 #------------  Main GUI  -------------#
