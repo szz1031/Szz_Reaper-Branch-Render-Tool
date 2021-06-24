@@ -1,5 +1,5 @@
 # Basic Waapi Usage
-
+import os
 from waapi import WaapiClient
 from pprint import pprint
 
@@ -16,6 +16,7 @@ class WwiseManager:
     _lastSelectedObject=''
 
     toolname="Tool"
+    info=''
     
     def __init__(self):
         self._lastSelectedObject=self.defaultSelectedObject
@@ -63,11 +64,13 @@ class WwiseManager:
             return
         return path
 
-    def importAudioUnderSelectedWwiseObject(self,audiofilepath,name):
+    def importAudioUnderSelectedWwiseObject(self,audiofilepath,targetfolder):
         if self._lastSelectedObject['type']=='Sound':
             print("---Please Select a legal Object to import---")
             return
-        
+        filepath,fullname=os.path.split(audiofilepath)
+        fname,ext=os.path.splitext(fullname)
+        print("prepare to import: "+fname)
         args={
             "importOperation": "replaceExisting",
             "default":{
@@ -75,18 +78,24 @@ class WwiseManager:
             },
             "imports":[
                 {
-                    "objectPath":self._lastSelectedObject['path']+"\\<Sound>"+name,
-                    "audioFile": audiofilepath
+                    "objectPath":self._lastSelectedObject['path']+"\\<Sound>"+fname,
+                    "audioFile": audiofilepath,
+                    "originalsSubFolder": targetfolder
                 }
             ]
         }
         with WaapiClient() as client:
             client.call("ak.wwise.core.audio.import",args)
-            client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Import "+name))
-            
+            client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Import "+fname))
+
+    def getInfo(self):
+        with WaapiClient() as client:
+            self.info = client.call("ak.wwise.core.getInfo")
+        pprint(self.info)
         
+        
+    
+w=WwiseManager()
 
-#w=WwiseManager()
-
-#print(w.getLastSelectedWwiseObjectPath())
-#w.importAudioUnderSelectedWwiseObject(r"C:\Users\Admin\Downloads\Music_Map_Test2.wav","13")
+print(w.getLastSelectedWwiseObjectPath())
+w.importAudioUnderSelectedWwiseObject(r"C:\Users\Admin\Downloads\Music_Map_Test2.wav","\\b")
