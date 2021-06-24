@@ -22,12 +22,10 @@ class WwiseManager:
         self._lastSelectedObject=self.defaultSelectedObject
         print_args={
             "message": self.toolname +": Connect To Tool via Waapi"
-        }
-        try:
-            with WaapiClient() as client:                
-                client.call("ak.soundengine.postMsgMonitor",print_args)
-        except:
-            print("Failed to connect to Waapi")
+        }        
+        with WaapiClient() as client:                
+            client.call("ak.soundengine.postMsgMonitor",print_args)
+
            
     def _msgToArgs(self,msg):
         args={
@@ -95,7 +93,7 @@ class WwiseManager:
         
         
     
-w=WwiseManager()
+#w=WwiseManager()
 
-print(w.getLastSelectedWwiseObjectPath())
-w.importAudioUnderSelectedWwiseObject(r"C:\Users\Admin\Downloads\Music_Map_Test2.wav","\\b")
+#print(w.getLastSelectedWwiseObjectPath())
+#w.importAudioUnderSelectedWwiseObject(r"C:\Users\Admin\Downloads\Music_Map_Test2.wav","\\b")

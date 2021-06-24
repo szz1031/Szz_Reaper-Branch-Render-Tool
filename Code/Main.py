@@ -122,11 +122,19 @@ def PrintReaperError():
 
 def ConnectToWwise():
     try:
-        w=WwiseManager()
+        w=WwiseManager()        
     except:
         PrintLog("<<Failed To Connect To Wwise>>")
         return
-    
+    PrintLog("Success To Connect To Wwise")
+
+def Check1():
+    print("Check: "+str(varCheck1.get()))
+    if varCheck1.get()==1:
+        print("Enable Wwise Input")
+
+def ImportAudioToWwise():
+    print("prepare to import audio to Wwise")
 
 #------------  Main GUI  -------------#
 
@@ -159,6 +167,13 @@ button3.pack()
 
 button4=tk.Button(window,text="Check Wwise Connection",command = ConnectToWwise)
 button4.pack()
+
+button5=tk.Button(window,text="Import Audio To Wwise",command = ImportAudioToWwise)
+button5.pack()
+
+varCheck1=tk.IntVar()
+checkbutton1=tk.Checkbutton(window,variable=varCheck1,command=Check1)
+checkbutton1.pack()
 
 logtext=tk.Text(window,width=20,height=20)
 logtext.pack(expand=1,fill=tk.BOTH,side=tk.TOP)

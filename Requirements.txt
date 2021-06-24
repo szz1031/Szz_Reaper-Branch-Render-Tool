@@ -3,4 +3,7 @@ Python3.x
 
 pip3 install pyinstaller
 pip install python-reapy
+pip install waapi-client
+
+
 reapy.configure_reaper()
