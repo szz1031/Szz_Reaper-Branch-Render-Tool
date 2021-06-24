@@ -1,10 +1,10 @@
 import os
 import stat
-#import reapy
 import time
 import shutil
 import tkinter as tk
 import tkinter.filedialog
+from wwisemanager import WwiseManager
 
 path=''   # 不提前定义global的话，函数内初始化引用会出错
 
@@ -120,7 +120,13 @@ def PrintReaperError():
     PrintLog("<<<Failed To Connect To Reaper>>>")
 
 
-
+def ConnectToWwise():
+    try:
+        w=WwiseManager()
+    except:
+        PrintLog("<<Failed To Connect To Wwise>>")
+        return
+    
 
 #------------  Main GUI  -------------#
 
@@ -151,10 +157,18 @@ button2.pack()
 button3=tk.Button(window,text="Start Branch Process",command = BranchProcess)
 button3.pack()
 
+button4=tk.Button(window,text="Check Wwise Connection",command = ConnectToWwise)
+button4.pack()
+
 logtext=tk.Text(window,width=20,height=20)
 logtext.pack(expand=1,fill=tk.BOTH,side=tk.TOP)
 
+
+
+
 ConnectToReaper()
+
+
 
 window.mainloop()
 

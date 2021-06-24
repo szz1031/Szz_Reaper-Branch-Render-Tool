@@ -1,0 +1,92 @@
+# Basic Waapi Usage
+
+from waapi import WaapiClient
+from pprint import pprint
+
+
+class WwiseManager:
+
+    #设置默认路径
+    defaultSelectedObject={
+        'name': 'Default Work Unit',
+        'path': '\\Actor-Mixer Hierarchy\\Default Work Unit',
+        'type': 'WorkUnit'
+        }
+
+    _lastSelectedObject=''
+
+    toolname="Tool"
+    
+    def __init__(self):
+        self._lastSelectedObject=self.defaultSelectedObject
+        print_args={
+            "message": self.toolname +": Connect To Tool via Waapi"
+        }
+        try:
+            with WaapiClient() as client:                
+                client.call("ak.soundengine.postMsgMonitor",print_args)
+        except:
+            print("Failed to connect to Waapi")
+           
+    def _msgToArgs(self,msg):
+        args={
+            "message": "Tool: "+msg
+        }
+        return args
+    
+    def getSelectedWwiseObjects(self):
+        args_info={
+            "options":{
+                "return":["path", "name", "type"]
+            }
+        }
+        with WaapiClient() as client:
+            result=client.call("ak.wwise.ui.getSelectedObjects",args_info)
+            client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Choose Selected Objects"))
+        print("=====Update Selected Objects====")
+        pprint(result)
+        print("================================")
+        try:
+            self._lastSelectedObject=result['objects'][0]
+        except:
+            print("Please Select a Wwise Object, Use DefualtWorkUnit Instead")
+            self._lastSelectedObject=self.defaultSelectedObject
+            return
+        return result
+
+    def getLastSelectedWwiseObjectPath(self):        
+        try:            
+            self.getSelectedWwiseObjects()
+            path=self._lastSelectedObject['path']
+        except:
+            print("!!faild get path!!")
+            return
+        return path
+
+    def importAudioUnderSelectedWwiseObject(self,audiofilepath,name):
+        if self._lastSelectedObject['type']=='Sound':
+            print("---Please Select a legal Object to import---")
+            return
+        
+        args={
+            "importOperation": "replaceExisting",
+            "default":{
+                "importLanguage": "SFX"
+            },
+            "imports":[
+                {
+                    "objectPath":self._lastSelectedObject['path']+"\\<Sound>"+name,
+                    "audioFile": audiofilepath
+                }
+            ]
+        }
+        with WaapiClient() as client:
+            client.call("ak.wwise.core.audio.import",args)
+            client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Import "+name))
+            
+        
+
+#w=WwiseManager()
+
+#print(w.getLastSelectedWwiseObjectPath())
+#w.importAudioUnderSelectedWwiseObject(r"C:\Users\Admin\Downloads\Music_Map_Test2.wav","13")
