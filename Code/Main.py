@@ -1,12 +1,16 @@
-import os
+﻿import os
 import stat
 import time
 import shutil
 import tkinter as tk
 import tkinter.filedialog
 from wwisemanager import WwiseManager
+from pprint import pprint
 
 path=''   # 不提前定义global的话，函数内初始化引用会出错
+wpath=''
+wAudiopath=''
+w=WwiseManager()
 
 #---------- Set Global Vars & Functions ----------#
 
@@ -16,11 +20,11 @@ def ConnectToReaper():
     PrintLog("Trying To Connect To Reaper")
     try:
         import reapy
-        reapy.configure_reaper()
+        #reapy.configure_reaper()
     except:
         PrintReaperError()
-        PrintLog("Reapy Configuration Failed. Please Check Python settings at 'Preference/Plug-ins/ReaScript' and Restart Reaper")
-        PrintLog("请确保Reaper处于开启状态，并且Preference/Plug-ins/ReaScript中关于python的设置都正确。修改设置后重启Reaper以及此工具")
+        PrintLog("<<<Reapy Configuration Failed. Please Check Python settings at 'Preference/Plug-ins/ReaScript' and Restart Reaper>>>")
+        PrintLog("<<<请确保Reaper处于开启状态，并且Preference/Plug-ins/ReaScript中关于python的设置都正确。Reaper的网络权限也需要打开。修改设置后重启Reaper以及此工具>>>")
         return
 
     
@@ -35,8 +39,8 @@ def ConnectToReaper():
         project = reapy.Project()
     except:
         PrintReaperError()
-        PrintLog("Please Restart This Tool")
-        PrintLog("请重启此工具")
+        PrintLog("===Cannot Connect Reaper via reapy. Please Restart This Tool")
+        PrintLog("===reapy模块调用失败，请重启此工具。如果仍不成功，请检查reaper网络设置")
         return
 
     
@@ -81,6 +85,7 @@ def BranchProcess():# 开始批处理
     RPR.SetOnlyTrackSelected(TargetTrack)  # 强制选择第一个轨道
     for file,root in findallfiles(path):    # 遍历整个文件夹，将每个文件导入reaper，渲染之后的文件替换原来的文件。
         fullname = os.path.join(root,file)
+        fullname = os.path.normpath(fullname)  #去掉反斜杠
         PrintLog ("Processing  " + fullname)
         RenderFileInReaper(project,fullname)
         try:
@@ -99,6 +104,9 @@ def BranchProcess():# 开始批处理
         else:   
             shutil.move(path + r"\temp.wav" ,fullname)
             PrintLog("Finished")
+
+        if varCheck1.get()==1:
+            ImportAudioToWwise(fullname,path,wAudiopath)    
     
 def UpdatePath():                   # 用户选择文件夹路径
     global path
@@ -110,6 +118,7 @@ def UpdatePath():                   # 用户选择文件夹路径
     varText1.set(path)
     PrintLog ("Get Directory "+ path)
 
+# Log
 def PrintLog(string):                       # 在GUI里显示Log
     logtext.insert(tk.END, string + '\n') 
     logtext.see(tk.END)
@@ -120,41 +129,76 @@ def PrintReaperError():
     PrintLog("<<<Failed To Connect To Reaper>>>")
 
 
+# Wwise
 def ConnectToWwise():
     try:
         w=WwiseManager()        
     except:
         PrintLog("<<Failed To Connect To Wwise>>")
         return
-    PrintLog("Success To Connect To Wwise")
+    PrintLog("---Success To Connect To Wwise---")
+    PrintLog("---成功连接到Wwise，可进行导入---")
+    return w
 
 def Check1():
     print("Check: "+str(varCheck1.get()))
     if varCheck1.get()==1:
-        print("Enable Wwise Input")
+        PrintLog("Enable Automatic Wwise Input")
+        PrintLog("打勾此选项之后，Reaper渲染出的文件将自动导入Wwise:")
 
-def ImportAudioToWwise():
-    print("prepare to import audio to Wwise")
+def BranchImportAudioToWwise():
+    if path =='':
+        PrintLog("----Please Choose a Folder First----")
+        PrintLog("----请先选择一个文件夹----")
+        return
+    PrintLog("prepare to import audio to Wwise")
+    for file,root in findallfiles(path):
+        _fullname = os.path.join(root,file)
+        _fullname = os.path.normpath(_fullname)  #去掉反斜杠
+        ImportAudioToWwise(_fullname,path,wAudiopath)
 
+def ImportAudioToWwise(fullpath,folderpath,wroot):
+    _relativePath=os.path.relpath(fullpath,folderpath)
+    _filepath,_fullname=os.path.split(_relativePath)
+    _wfullpath=os.path.join(wroot,_filepath)
+    try:
+        w.importAudioUnderSelectedWwiseObject(fullpath,_wfullpath)
+    except:
+        PrintLog("Faild to import file into wwise")
+        print("Wwise Root:" +wpath)
+        print("Wwise Originals Folder:" +wAudiopath)
+        print()
+    PrintLog("Success import: " +_relativePath)
+
+def UpdateWwisePath():    
+    global wpath
+    global wAudiopath
+    wpath=w.getLastSelectedWwiseObjectPath()
+    wAudiopath=wpath.replace("\\Actor-Mixer Hierarchy\\",'',1)
+    varText3.set(wpath)
+    print("Get selected Wwise target: "+wpath)
+    print("Get orignal file path: "+wAudiopath)
+
+
+    
 #------------  Main GUI  -------------#
 
 
 
 window=tk.Tk()
 window.title('Peaper Branch Render Tool @SZZ')
-window.geometry('600x300')
+window.geometry('600x500')
 
 varText1=tk.StringVar()
 varText1.set("please select a folder")
 label1=tk.Label(window,textvariable = varText1)
 label1.pack()
 
-
 button1=tk.Button(window,text="Change Folder",command = UpdatePath)
 button1.pack()
 
 varText2=tk.StringVar()
-varText2.set("...")
+varText2.set("...")   #reaper 连接状态
 label2=tk.Label(window,textvariable = varText2)
 label2.pack()
 
@@ -168,7 +212,15 @@ button3.pack()
 button4=tk.Button(window,text="Check Wwise Connection",command = ConnectToWwise)
 button4.pack()
 
-button5=tk.Button(window,text="Import Audio To Wwise",command = ImportAudioToWwise)
+varText3=tk.StringVar()
+varText3.set("Wwise Path Unset")   #Wwise 路径
+label3=tk.Label(window,textvariable = varText3)
+label3.pack()
+
+button6=tk.Button(window,text="Update Wwise Path",command = UpdateWwisePath)
+button6.pack()
+
+button5=tk.Button(window,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
 button5.pack()
 
 varCheck1=tk.IntVar()
@@ -183,7 +235,8 @@ logtext.pack(expand=1,fill=tk.BOTH,side=tk.TOP)
 
 ConnectToReaper()
 
-
+ConnectToWwise()
+UpdateWwisePath()
 
 window.mainloop()
 

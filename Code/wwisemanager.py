@@ -68,7 +68,7 @@ class WwiseManager:
             return
         filepath,fullname=os.path.split(audiofilepath)
         fname,ext=os.path.splitext(fullname)
-        print("prepare to import: "+fname)
+        print("prepare to import: "+fname+ "|| from: "+audiofilepath+ " to "+targetfolder)
         args={
             "importOperation": "replaceExisting",
             "default":{
@@ -82,6 +82,9 @@ class WwiseManager:
                 }
             ]
         }
+        print("------------------")
+        pprint(args)
+        print("------------------")
         with WaapiClient() as client:
             client.call("ak.wwise.core.audio.import",args)
             client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Import "+fname))
@@ -91,9 +94,3 @@ class WwiseManager:
             self.info = client.call("ak.wwise.core.getInfo")
         pprint(self.info)
         
-        
-    
-#w=WwiseManager()
-
-#print(w.getLastSelectedWwiseObjectPath())
-#w.importAudioUnderSelectedWwiseObject(r"C:\Users\Admin\Downloads\Music_Map_Test2.wav","\\b")
