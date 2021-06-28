@@ -10,13 +10,13 @@ from pprint import pprint
 path=''   # 不提前定义global的话，函数内初始化引用会出错
 wpath=''
 wAudiopath=''
-w=WwiseManager()
+
 
 #---------- Set Global Vars & Functions ----------#
 
 def ConnectToReaper():
     print("1")
-    varText2.set("Trying To Connect To Reaper")
+    varTextReaper.set("Trying To Connect To Reaper")
     PrintLog("Trying To Connect To Reaper")
     try:
         import reapy
@@ -40,7 +40,7 @@ def ConnectToReaper():
     except:
         PrintReaperError()
         PrintLog("===Cannot Connect Reaper via reapy. Please Restart This Tool")
-        PrintLog("===reapy模块调用失败，请重启此工具。如果仍不成功，请检查reaper网络设置")
+        PrintLog("===reapy模块调用失败，请打开Reaper再重启此工具。如果仍不成功，请检查Reaper设置")
         return
 
     
@@ -50,7 +50,7 @@ def ConnectToReaper():
 
     
     print("5")
-    varText2.set("Success To Connect To Reaper")
+    varTextReaper.set("Success To Connect To Reaper")
     PrintLog("----Success To Connect To Reaper----")
     PrintLog("----连接Reaper成功，请选择需要批处理的文件夹----")
 
@@ -115,7 +115,7 @@ def UpdatePath():                   # 用户选择文件夹路径
     if path_=='':
         return
     path = path_
-    varText1.set(path)
+    varTextFolder.set(path)
     PrintLog ("Get Directory "+ path)
 
 # Log
@@ -125,17 +125,20 @@ def PrintLog(string):                       # 在GUI里显示Log
     logtext.update()
 
 def PrintReaperError():
-    varText2.set("Failed To Connect To Reaper")
+    varTextReaper.set("Failed To Connect To Reaper")
     PrintLog("<<<Failed To Connect To Reaper>>>")
 
 
 # Wwise
 def ConnectToWwise():
+    global w
     try:
         w=WwiseManager()        
     except:
         PrintLog("<<Failed To Connect To Wwise>>")
+        varTextWwise1.set("Failed To Connect To Wwise")
         return
+    varTextWwise1.set("Success To Connect To Wwise")
     PrintLog("---Success To Connect To Wwise---")
     PrintLog("---成功连接到Wwise，可进行导入---")
     return w
@@ -173,9 +176,13 @@ def ImportAudioToWwise(fullpath,folderpath,wroot):
 def UpdateWwisePath():    
     global wpath
     global wAudiopath
-    wpath=w.getLastSelectedWwiseObjectPath()
-    wAudiopath=wpath.replace("\\Actor-Mixer Hierarchy\\",'',1)
-    varText3.set(wpath)
+    try:
+        wpath=w.getLastSelectedWwiseObjectPath()
+        wAudiopath=wpath.replace("\\Actor-Mixer Hierarchy\\",'',1)
+    except:
+        wpath="Wwise Object Path Unselected"
+        
+    varTextWwise2.set(wpath)
     print("Get selected Wwise target: "+wpath)
     print("Get orignal file path: "+wAudiopath)
 
@@ -189,43 +196,52 @@ window=tk.Tk()
 window.title('Peaper Branch Render Tool @SZZ')
 window.geometry('600x500')
 
-varText1=tk.StringVar()
-varText1.set("please select a folder")
-label1=tk.Label(window,textvariable = varText1)
-label1.pack()
+varTextFolder=tk.StringVar()
+varTextFolder.set("please select a folder")
+labelFolder=tk.Label(window,textvariable = varTextFolder)
+labelFolder.pack()
 
-button1=tk.Button(window,text="Change Folder",command = UpdatePath)
-button1.pack()
+buttonFolder=tk.Button(window,text="Change Folder",command = UpdatePath)
+buttonFolder.pack()
 
-varText2=tk.StringVar()
-varText2.set("...")   #reaper 连接状态
-label2=tk.Label(window,textvariable = varText2)
-label2.pack()
+varTextReaper=tk.StringVar()
+varTextReaper.set("...")   #reaper 连接状态
+labelReaper=tk.Label(window,textvariable = varTextReaper)
+labelReaper.pack()
+
+buttonReaper=tk.Button(window,text="ReConnect To Reaper",command = ConnectToReaper)
+buttonReaper.pack()
 
 
-button2=tk.Button(window,text="ReConnect To Reaper",command = ConnectToReaper)
-button2.pack()
+buttonProcess=tk.Button(window,text="Start Branch Process",command = BranchProcess)
+buttonProcess.pack()
 
-button3=tk.Button(window,text="Start Branch Process",command = BranchProcess)
-button3.pack()
 
-button4=tk.Button(window,text="Check Wwise Connection",command = ConnectToWwise)
-button4.pack()
+varTextWwise1=tk.StringVar()
+varTextWwise1.set("...")   #Wwise 连接状态
+labelWwise1=tk.Label(window,textvariable = varTextWwise1)
+labelWwise1.pack()
 
-varText3=tk.StringVar()
-varText3.set("Wwise Path Unset")   #Wwise 路径
-label3=tk.Label(window,textvariable = varText3)
-label3.pack()
+buttonWwise1=tk.Button(window,text="Check Wwise Connection",command = ConnectToWwise)
+buttonWwise1.pack()
 
-button6=tk.Button(window,text="Update Wwise Path",command = UpdateWwisePath)
-button6.pack()
+varTextWwise2=tk.StringVar()
+varTextWwise2.set("Wwise Object Path Unset")   #Wwise 路径
+labelWwise2=tk.Label(window,textvariable = varTextWwise2)
+labelWwise2.pack()
 
-button5=tk.Button(window,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
-button5.pack()
+buttonWwise2=tk.Button(window,text="Update Wwise Path",command = UpdateWwisePath)
+buttonWwise2.pack()
+
+buttonWwise3=tk.Button(window,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
+buttonWwise3.pack()
+
+lableProcess=tk.Label(window,text="是否用Reaper批处理的时候同时导入Wwise")
+lableProcess.pack()
 
 varCheck1=tk.IntVar()
-checkbutton1=tk.Checkbutton(window,variable=varCheck1,command=Check1)
-checkbutton1.pack()
+checkbuttonFolder=tk.Checkbutton(window,variable=varCheck1,command=Check1)
+checkbuttonFolder.pack()
 
 logtext=tk.Text(window,width=20,height=20)
 logtext.pack(expand=1,fill=tk.BOTH,side=tk.TOP)
@@ -235,7 +251,7 @@ logtext.pack(expand=1,fill=tk.BOTH,side=tk.TOP)
 
 ConnectToReaper()
 
-ConnectToWwise()
+w=ConnectToWwise()
 UpdateWwisePath()
 
 window.mainloop()
