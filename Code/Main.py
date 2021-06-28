@@ -105,7 +105,7 @@ def BranchProcess():# 开始批处理
             shutil.move(path + r"\temp.wav" ,fullname)
             PrintLog("Finished")
 
-        if varCheck1.get()==1:
+        if varCheckProcess.get()==1:
             ImportAudioToWwise(fullname,path,wAudiopath)    
     
 def UpdatePath():                   # 用户选择文件夹路径
@@ -144,8 +144,8 @@ def ConnectToWwise():
     return w
 
 def Check1():
-    print("Check: "+str(varCheck1.get()))
-    if varCheck1.get()==1:
+    print("Check: "+str(varCheckProcess.get()))
+    if varCheckProcess.get()==1:
         PrintLog("Enable Automatic Wwise Input")
         PrintLog("打勾此选项之后，Reaper渲染出的文件将自动导入Wwise:")
 
@@ -194,63 +194,73 @@ def UpdateWwisePath():
 
 window=tk.Tk()
 window.title('Peaper Branch Render Tool @SZZ')
-window.geometry('600x500')
+window.geometry('780x500')
 
-varTextFolder=tk.StringVar()
-varTextFolder.set("please select a folder")
-labelFolder=tk.Label(window,textvariable = varTextFolder)
-labelFolder.pack()
+#frame = tk.Frame(window)
+#frame.pack()
 
-buttonFolder=tk.Button(window,text="Change Folder",command = UpdatePath)
-buttonFolder.pack()
+frameReaper=tk.Frame(window,highlightthickness=5,width=200,height=200)
+frameWwise=tk.Frame(window,width=200,height=300)
+frameProcess=tk.Frame(window)
 
+# Reaper
 varTextReaper=tk.StringVar()
 varTextReaper.set("...")   #reaper 连接状态
-labelReaper=tk.Label(window,textvariable = varTextReaper)
+labelReaper=tk.Label(frameReaper,textvariable = varTextReaper)
 labelReaper.pack()
-
-buttonReaper=tk.Button(window,text="ReConnect To Reaper",command = ConnectToReaper)
+buttonReaper=tk.Button(frameReaper,text="ReConnect To Reaper",command = ConnectToReaper)
 buttonReaper.pack()
 
 
-buttonProcess=tk.Button(window,text="Start Branch Process",command = BranchProcess)
-buttonProcess.pack()
-
-
+# Wwise
 varTextWwise1=tk.StringVar()
 varTextWwise1.set("...")   #Wwise 连接状态
-labelWwise1=tk.Label(window,textvariable = varTextWwise1)
+labelWwise1=tk.Label(frameWwise,textvariable = varTextWwise1)
 labelWwise1.pack()
 
-buttonWwise1=tk.Button(window,text="Check Wwise Connection",command = ConnectToWwise)
+buttonWwise1=tk.Button(frameWwise,text="Check Wwise Connection",command = ConnectToWwise)
 buttonWwise1.pack()
 
 varTextWwise2=tk.StringVar()
 varTextWwise2.set("Wwise Object Path Unset")   #Wwise 路径
-labelWwise2=tk.Label(window,textvariable = varTextWwise2)
+labelWwise2=tk.Label(frameWwise,textvariable = varTextWwise2)
 labelWwise2.pack()
 
-buttonWwise2=tk.Button(window,text="Update Wwise Path",command = UpdateWwisePath)
+buttonWwise2=tk.Button(frameWwise,text="Update Wwise Path",command = UpdateWwisePath)
 buttonWwise2.pack()
 
-buttonWwise3=tk.Button(window,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
+buttonWwise3=tk.Button(frameWwise,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
 buttonWwise3.pack()
 
-lableProcess=tk.Label(window,text="是否用Reaper批处理的时候同时导入Wwise")
+
+# mainProcess
+varTextFolder=tk.StringVar()
+varTextFolder.set("please select a folder")
+labelFolder=tk.Label(frameProcess,textvariable = varTextFolder)
+labelFolder.pack()
+buttonFolder=tk.Button(frameProcess,text="Change Folder",command = UpdatePath)
+buttonFolder.pack()
+
+lableProcess=tk.Label(frameProcess,text="是否用Reaper批处理的时候同时导入Wwise")
 lableProcess.pack()
+varCheckProcess=tk.IntVar()
+checkbuttonProcess=tk.Checkbutton(frameProcess,variable=varCheckProcess,command=Check1)
+checkbuttonProcess.pack()
 
-varCheck1=tk.IntVar()
-checkbuttonFolder=tk.Checkbutton(window,variable=varCheck1,command=Check1)
-checkbuttonFolder.pack()
+buttonProcess=tk.Button(frameProcess,text="Start Branch Process",command = BranchProcess)
+buttonProcess.pack()
 
-logtext=tk.Text(window,width=20,height=20)
-logtext.pack(expand=1,fill=tk.BOTH,side=tk.TOP)
+# pack
+frameReaper.place(x=25,y=30,anchor=tk.NW)
+frameWwise.place(x=550,y=30,anchor=tk.NW)
+frameProcess.place(x=250,y=100,anchor=tk.NW)
 
-
+#Log
+logtext=tk.Text(window,width=150,height=200)
+logtext.place(x=0,y=250,anchor=tk.NW)
 
 
 ConnectToReaper()
-
 w=ConnectToWwise()
 UpdateWwisePath()
 
