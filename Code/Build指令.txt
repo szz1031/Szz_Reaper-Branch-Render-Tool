@@ -1,1 +1,3 @@
 pyinstaller -F -w Main.py
+
+在此目录使用控制台，输入上述指令即可生成exe文件到  dist\ 下  （需要安装pyinstaller模块）

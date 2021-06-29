@@ -10,19 +10,22 @@ from pprint import pprint
 path=''   # 不提前定义global的话，函数内初始化引用会出错
 wpath=''
 wAudiopath=''
-
+reaperConnect=0
+wwiseConnect=0
 
 #---------- Set Global Vars & Functions ----------#
 
 def ConnectToReaper():
+    global reaperConnect
     print("1")
     varTextReaper.set("Trying To Connect To Reaper")
     PrintLog("Trying To Connect To Reaper")
     try:
         import reapy
-        #reapy.configure_reaper()
+        #reapy.configure_reaper()   #本来想用这个来Debug,结果打包之后调用这个函数会设置错误的python路径，因此这个try废了
     except:
         PrintReaperError()
+        reaperConnect=0
         PrintLog("<<<Reapy Configuration Failed. Please Check Python settings at 'Preference/Plug-ins/ReaScript' and Restart Reaper>>>")
         PrintLog("<<<请确保Reaper处于开启状态，并且Preference/Plug-ins/ReaScript中关于python的设置都正确。Reaper的网络权限也需要打开。修改设置后重启Reaper以及此工具>>>")
         return
@@ -39,6 +42,7 @@ def ConnectToReaper():
         project = reapy.Project()
     except:
         PrintReaperError()
+        reaperConnect=0
         PrintLog("===Cannot Connect Reaper via reapy. Please Restart This Tool")
         PrintLog("===reapy模块调用失败，请打开Reaper再重启此工具。如果仍不成功，请检查Reaper设置")
         return
@@ -51,6 +55,8 @@ def ConnectToReaper():
     
     print("5")
     varTextReaper.set("Success To Connect To Reaper")
+    labelReaper['fg']='green'
+    reaperConnect=1
     PrintLog("----Success To Connect To Reaper----")
     PrintLog("----连接Reaper成功，请选择需要批处理的文件夹----")
 
@@ -76,9 +82,12 @@ def SetReaperRenderSetting(proj,path):  # 设置Render参数
     RPR.GetSetProjectInfo_String(proj,"RENDER_PATTERN","temp",1)
     
 def BranchProcess():# 开始批处理
+    if reaperConnect==0:
+        PrintLog("Please Connect Reaper")
+        return
     if path =='':
-        PrintLog("----Please Choose a Folder First----")
-        PrintLog("----请先选择一个文件夹----")
+        PrintLog("<<<Please Choose a Folder First>>>")
+        PrintLog("<<<请先选择一个文件夹>>>")
         return
     PrintLog("Prepare to Process "+ path)
     SetReaperRenderSetting(project,path)  # 设置Reaper工程的渲染参数
@@ -105,7 +114,7 @@ def BranchProcess():# 开始批处理
             shutil.move(path + r"\temp.wav" ,fullname)
             PrintLog("Finished")
 
-        if varCheckProcess.get()==1:
+        if (varCheckProcess.get()==1) and (wwiseConnect==1):
             ImportAudioToWwise(fullname,path,wAudiopath)    
     
 def UpdatePath():                   # 用户选择文件夹路径
@@ -126,19 +135,25 @@ def PrintLog(string):                       # 在GUI里显示Log
 
 def PrintReaperError():
     varTextReaper.set("Failed To Connect To Reaper")
+    labelReaper['fg']='red'
     PrintLog("<<<Failed To Connect To Reaper>>>")
 
 
 # Wwise
 def ConnectToWwise():
     global w
+    global wwiseConnect
     try:
         w=WwiseManager()        
     except:
         PrintLog("<<Failed To Connect To Wwise>>")
+        wwiseConnect=0
         varTextWwise1.set("Failed To Connect To Wwise")
+        labelWwise1['fg']='red'
         return
+    wwiseConnect=1
     varTextWwise1.set("Success To Connect To Wwise")
+    labelWwise1['fg']='green'
     PrintLog("---Success To Connect To Wwise---")
     PrintLog("---成功连接到Wwise，可进行导入---")
     return w
@@ -148,8 +163,13 @@ def Check1():
     if varCheckProcess.get()==1:
         PrintLog("Enable Automatic Wwise Input")
         PrintLog("打勾此选项之后，Reaper渲染出的文件将自动导入Wwise:")
+    if (wwiseConnect==0) or (reaperConnect==0):
+        PrintLog("Warning: Please ensure the connection of 2 software")
 
 def BranchImportAudioToWwise():
+    if (wwiseConnect==0):
+        PrintLog("Please Connect To Wwise")
+        return
     if path =='':
         PrintLog("----Please Choose a Folder First----")
         PrintLog("----请先选择一个文件夹----")
@@ -167,7 +187,7 @@ def ImportAudioToWwise(fullpath,folderpath,wroot):
     try:
         w.importAudioUnderSelectedWwiseObject(fullpath,_wfullpath)
     except:
-        PrintLog("Faild to import file into wwise")
+        PrintLog("Faild to import file: " +_relativePath)
         print("Wwise Root:" +wpath)
         print("Wwise Originals Folder:" +wAudiopath)
         print()
@@ -176,6 +196,9 @@ def ImportAudioToWwise(fullpath,folderpath,wroot):
 def UpdateWwisePath():    
     global wpath
     global wAudiopath
+    if wwiseConnect==0:
+        PrintLog("Please Connect Wwise")
+        return
     try:
         wpath=w.getLastSelectedWwiseObjectPath()
         wAudiopath=wpath.replace("\\Actor-Mixer Hierarchy\\",'',1)
@@ -256,7 +279,7 @@ frameWwise.place(x=550,y=30,anchor=tk.NW)
 frameProcess.place(x=250,y=100,anchor=tk.NW)
 
 #Log
-logtext=tk.Text(window,width=150,height=200)
+logtext=tk.Text(window,width=150,height=100)
 logtext.place(x=0,y=250,anchor=tk.NW)
 
 
