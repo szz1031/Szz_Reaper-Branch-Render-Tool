@@ -19,7 +19,6 @@ def ConnectToReaper():
     global reaperConnect
     print("1")
     varTextReaper.set("Trying To Connect To Reaper")
-    PrintLog("Trying To Connect To Reaper")
     try:
         import reapy
         #reapy.configure_reaper()   #本来想用这个来Debug,结果打包之后调用这个函数会设置错误的python路径，因此这个try废了
@@ -161,10 +160,10 @@ def ConnectToWwise():
 def Check1():
     print("Check: "+str(varCheckProcess.get()))
     if varCheckProcess.get()==1:
-        PrintLog("Enable Automatic Wwise Input")
-        PrintLog("打勾此选项之后，Reaper渲染出的文件将自动导入Wwise:")
-    if (wwiseConnect==0) or (reaperConnect==0):
-        PrintLog("Warning: Please ensure the connection of 2 software")
+        PrintLog("===Enable Automatic Wwise Import===")
+        PrintLog("===打勾此选项之后，Reaper渲染出的文件将自动导入Wwise===")
+        if (wwiseConnect==0) or (reaperConnect==0):
+            PrintLog("!!!Warning: Please Connect BOTH Reaper & Wwise!!!")
 
 def BranchImportAudioToWwise():
     if (wwiseConnect==0):
@@ -217,22 +216,21 @@ def UpdateWwisePath():
 
 window=tk.Tk()
 window.title('Peaper Branch Render Tool @SZZ')
-window.geometry('780x500')
+window.geometry('825x500')
 
-#frame = tk.Frame(window)
-#frame.pack()
 
-frameReaper=tk.Frame(window,highlightthickness=5,width=200,height=200)
-frameWwise=tk.Frame(window,width=200,height=300)
-frameProcess=tk.Frame(window)
+# Frame
+frameReaper=tk.Frame(window,width=300,height=600,relief=tk.SUNKEN,bd=3)
+frameWwise=tk.Frame(window,width=200,height=300,relief=tk.SUNKEN,bd=3)
+frameProcess=tk.Frame(window,width=200,height=100,relief=tk.GROOVE,bd=3)
 
 # Reaper
 varTextReaper=tk.StringVar()
 varTextReaper.set("...")   #reaper 连接状态
 labelReaper=tk.Label(frameReaper,textvariable = varTextReaper)
-labelReaper.pack()
+labelReaper.pack(pady=10)
 buttonReaper=tk.Button(frameReaper,text="ReConnect To Reaper",command = ConnectToReaper)
-buttonReaper.pack()
+buttonReaper.pack(pady=10,padx=40)
 
 
 # Wwise
@@ -242,7 +240,7 @@ labelWwise1=tk.Label(frameWwise,textvariable = varTextWwise1)
 labelWwise1.pack()
 
 buttonWwise1=tk.Button(frameWwise,text="Check Wwise Connection",command = ConnectToWwise)
-buttonWwise1.pack()
+buttonWwise1.pack(pady=5)
 
 varTextWwise2=tk.StringVar()
 varTextWwise2.set("Wwise Object Path Unset")   #Wwise 路径
@@ -253,7 +251,7 @@ buttonWwise2=tk.Button(frameWwise,text="Update Wwise Path",command = UpdateWwise
 buttonWwise2.pack()
 
 buttonWwise3=tk.Button(frameWwise,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
-buttonWwise3.pack()
+buttonWwise3.pack(pady=20,padx=10)
 
 
 # mainProcess
@@ -262,30 +260,29 @@ varTextFolder.set("please select a folder")
 labelFolder=tk.Label(frameProcess,textvariable = varTextFolder)
 labelFolder.pack()
 buttonFolder=tk.Button(frameProcess,text="Change Folder",command = UpdatePath)
-buttonFolder.pack()
+buttonFolder.pack(pady=10)
 
 lableProcess=tk.Label(frameProcess,text="是否用Reaper批处理的时候同时导入Wwise")
-lableProcess.pack()
+lableProcess.pack(padx=20)
 varCheckProcess=tk.IntVar()
 checkbuttonProcess=tk.Checkbutton(frameProcess,variable=varCheckProcess,command=Check1)
 checkbuttonProcess.pack()
 
 buttonProcess=tk.Button(frameProcess,text="Start Branch Process",command = BranchProcess)
-buttonProcess.pack()
+buttonProcess.pack(pady=10)
 
 # pack
 frameReaper.place(x=25,y=30,anchor=tk.NW)
-frameWwise.place(x=550,y=30,anchor=tk.NW)
-frameProcess.place(x=250,y=100,anchor=tk.NW)
+frameWwise.place(x=580,y=30,anchor=tk.NW)
+frameProcess.place(x=270,y=30,anchor=tk.NW)
 
 #Log
-logtext=tk.Text(window,width=150,height=100)
-logtext.place(x=0,y=250,anchor=tk.NW)
+logtext=tk.Text(window,width=110,height=15)
+logtext.place(x=25,y=250,anchor=tk.NW)
 
 
 ConnectToReaper()
 w=ConnectToWwise()
-UpdateWwisePath()
 
 window.mainloop()
 
