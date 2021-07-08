@@ -71,6 +71,7 @@ class WwiseManager:
         print("prepare to import: "+fname+ "|| from: "+audiofilepath+ " to "+targetfolder)
         args={
             "importOperation": "replaceExisting",
+            "autoAddToSourceControl": True,
             "default":{
                 "importLanguage": "SFX"
             },

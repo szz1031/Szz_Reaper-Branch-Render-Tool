@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['Main.py'],
-             pathex=['F:\\GitHub\\Szz_Reaper-Branch-Render-Tool\\Code'],
+             pathex=['D:\\Github\\Szz_Reaper-Branch-Render-Tool\\Code'],
              binaries=[],
              datas=[],
              hiddenimports=[],

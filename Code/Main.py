@@ -216,7 +216,7 @@ def UpdateWwisePath():
 
 window=tk.Tk()
 window.title('Peaper Branch Render Tool @SZZ')
-window.geometry('825x500')
+window.geometry('1080x500')
 
 
 # Frame
