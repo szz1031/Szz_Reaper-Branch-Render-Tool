@@ -12,6 +12,7 @@ wpath=''
 wAudiopath=''
 reaperConnect=0
 wwiseConnect=0
+version="0.6.0"
 
 #---------- Set Global Vars & Functions ----------#
 
@@ -67,9 +68,12 @@ def findallfiles(path):                     # 遍历文件夹的generator，包�
 def RenderFileInReaper(project,path):       # 将path文件顶头导入第一轨，渲染，最后删除这个item
     RPR.Main_OnCommandEx(40042,0,project)   # move Cursor to 0
     RPR.InsertMedia(path,0)                 # Insert file onto selected track
-    RPR.Main_OnCommandEx(42230,0,project)   # Render with last render setting       
     track=project.tracks[0]
     item=track.items[0]
+    if (varCheckNormalize.get()==1):
+        RPR.SetMediaItemSelected(item,1)        # Select Item
+        RPR.Main_OnCommandEx(RPR.NamedCommandLookup("_BR_NORMALIZE_LOUDNESS_ITEMS_LU"),0,project)   #标准化
+    RPR.Main_OnCommandEx(42230,0,project)   # Render with last render setting       
     item.delete()
         
 def SetReaperRenderSetting(proj,path):  # 设置Render参数
@@ -79,6 +83,9 @@ def SetReaperRenderSetting(proj,path):  # 设置Render参数
     RPR.GetSetProjectInfo(proj,"RENDER_ADDTOPROJ",0,1)
     RPR.GetSetProjectInfo_String(proj,"RENDER_FILE",path,1)
     RPR.GetSetProjectInfo_String(proj,"RENDER_PATTERN","temp",1)
+    RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT","",1)
+    if varCheckMp3.get()==1 :
+        RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT","l3pm",1)
     
 def BranchProcess():# 开始批处理
     if reaperConnect==0:
@@ -96,6 +103,14 @@ def BranchProcess():# 开始批处理
         fullname = os.path.normpath(fullname)  #去掉反斜杠
         PrintLog ("Processing  " + fullname)
         RenderFileInReaper(project,fullname)
+        
+        newfullname=fullname
+        tempPath,ext=os.path.splitext(fullname)
+        
+        if varCheckMp3.get()==1 :
+            ext='.mp3'
+            newfullname=os.path.normpath(tempPath+ext)
+        
         try:
             os.remove(fullname)
         except:
@@ -104,17 +119,17 @@ def BranchProcess():# 开始批处理
                 os.chmod(fullname,stat.S_IWRITE)
             except:
                 PrintLog("!!!! Failed to Process a read-only file !!!!")
-                os.remove(path + r"\temp.wav")
+                os.remove(path + r"\temp"+ext)
                 return
             else:
-                shutil.move(path + r"\temp.wav" ,fullname)
+                shutil.move(path + r"\temp"+ext ,newfullname)
                 PrintLog("Finished a read-only file")
         else:   
-            shutil.move(path + r"\temp.wav" ,fullname)
+            shutil.move(path + r"\temp"+ext ,newfullname)
             PrintLog("Finished")
 
         if (varCheckProcess.get()==1) and (wwiseConnect==1):
-            ImportAudioToWwise(fullname,path,wAudiopath)    
+            ImportAudioToWwise(newfullname,path,wAudiopath)    
     
 def UpdatePath():                   # 用户选择文件夹路径
     global path
@@ -164,6 +179,12 @@ def Check1():
         PrintLog("===打勾此选项之后，Reaper渲染出的文件将自动导入Wwise===")
         if (wwiseConnect==0) or (reaperConnect==0):
             PrintLog("!!!Warning: Please Connect BOTH Reaper & Wwise!!!")
+
+def CheckNormalize():
+    if (varCheckNormalize.get()==1):
+        PrintLog("+++ (SWS needed) RMS Normalize (change settings at 'SWS/BR:Global loudness preferences') +++")
+        PrintLog("+++ (需要SWS插件) Reaper 导出时会同时做音量标准化(音量数值在SWS/BR:Global loudness preferences 中设置) +++")
+        
 
 def BranchImportAudioToWwise():
     if (wwiseConnect==0):
@@ -215,7 +236,7 @@ def UpdateWwisePath():
 
 
 window=tk.Tk()
-window.title('Peaper Branch Render Tool @SZZ')
+window.title('Peaper Branch Render Tool @SZZ    Version: '+version)
 window.geometry('1080x500')
 
 
@@ -230,7 +251,19 @@ varTextReaper.set("...")   #reaper 连接状态
 labelReaper=tk.Label(frameReaper,textvariable = varTextReaper)
 labelReaper.pack(pady=10)
 buttonReaper=tk.Button(frameReaper,text="ReConnect To Reaper",command = ConnectToReaper)
-buttonReaper.pack(pady=10,padx=40)
+buttonReaper.pack(pady=20,padx=40)
+
+lableNormalize=tk.Label(frameReaper,text="是否将音量标准化为-18LUFS")
+lableNormalize.pack(padx=20)
+varCheckNormalize=tk.IntVar()
+checkbuttonNormalize=tk.Checkbutton(frameReaper,variable=varCheckNormalize,command=CheckNormalize)
+checkbuttonNormalize.pack()
+
+lableMp3=tk.Label(frameReaper,text="是否导出为mp3")
+lableMp3.pack(padx=20)
+varCheckMp3=tk.IntVar()
+checkbuttonMp3=tk.Checkbutton(frameReaper,variable=varCheckMp3,command='')
+checkbuttonMp3.pack()
 
 
 # Wwise
