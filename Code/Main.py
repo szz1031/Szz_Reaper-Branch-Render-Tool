@@ -83,9 +83,16 @@ def SetReaperRenderSetting(proj,path):  # 设置Render参数
     RPR.GetSetProjectInfo(proj,"RENDER_ADDTOPROJ",0,1)
     RPR.GetSetProjectInfo_String(proj,"RENDER_FILE",path,1)
     RPR.GetSetProjectInfo_String(proj,"RENDER_PATTERN","temp",1)
-    RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT","",1)
+    RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT2","",1)
+    retval, mproj, desc, valuestrNeedBig,is_set= RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT","",0)
+    #print(retval)
+    #print(mproj)
+    #print(desc)
+    #print(valuestrNeedBig)
     if varCheckMp3.get()==1 :
         RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT","l3pm",1)
+    else:
+        RPR.GetSetProjectInfo_String(proj,"RENDER_FORMAT","evaw",1)
     
 def BranchProcess():# 开始批处理
     if reaperConnect==0:
@@ -105,12 +112,15 @@ def BranchProcess():# 开始批处理
         RenderFileInReaper(project,fullname)
         
         newfullname=fullname
-        tempPath,ext=os.path.splitext(fullname)
+        tempPath,oldext=os.path.splitext(fullname)
         
         if varCheckMp3.get()==1 :
             ext='.mp3'
             newfullname=os.path.normpath(tempPath+ext)
-        
+        else:
+            ext='.wav'
+            newfullname=os.path.normpath(tempPath+ext)
+
         try:
             os.remove(fullname)
         except:
@@ -130,6 +140,7 @@ def BranchProcess():# 开始批处理
 
         if (varCheckProcess.get()==1) and (wwiseConnect==1):
             ImportAudioToWwise(newfullname,path,wAudiopath)    
+    PrintLog("---Branch Process Finished---")
     
 def UpdatePath():                   # 用户选择文件夹路径
     global path
@@ -184,6 +195,13 @@ def CheckNormalize():
     if (varCheckNormalize.get()==1):
         PrintLog("+++ (SWS needed) RMS Normalize (change settings at 'SWS/BR:Global loudness preferences') +++")
         PrintLog("+++ (需要SWS插件) Reaper 导出时会同时做音量标准化(音量数值在SWS/BR:Global loudness preferences 中设置) +++")
+
+def CheckMp3():
+    SetReaperRenderSetting(project,path)
+    if varCheckMp3.get()==1:
+        PrintLog("Output Format: Mp3")
+    else:
+        PrintLog("Output Format: Wave")
         
 
 def BranchImportAudioToWwise():
@@ -253,16 +271,16 @@ labelReaper.pack(pady=10)
 buttonReaper=tk.Button(frameReaper,text="ReConnect To Reaper",command = ConnectToReaper)
 buttonReaper.pack(pady=20,padx=40)
 
-lableNormalize=tk.Label(frameReaper,text="是否将音量标准化为-18LUFS")
+lableNormalize=tk.Label(frameReaper,text="Normalize Loundness")
 lableNormalize.pack(padx=20)
 varCheckNormalize=tk.IntVar()
 checkbuttonNormalize=tk.Checkbutton(frameReaper,variable=varCheckNormalize,command=CheckNormalize)
 checkbuttonNormalize.pack()
 
-lableMp3=tk.Label(frameReaper,text="是否导出为mp3")
+lableMp3=tk.Label(frameReaper,text="Export Mp3")
 lableMp3.pack(padx=20)
 varCheckMp3=tk.IntVar()
-checkbuttonMp3=tk.Checkbutton(frameReaper,variable=varCheckMp3,command='')
+checkbuttonMp3=tk.Checkbutton(frameReaper,variable=varCheckMp3,command=CheckMp3)
 checkbuttonMp3.pack()
 
 
