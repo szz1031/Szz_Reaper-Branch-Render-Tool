@@ -36,7 +36,7 @@ class WwiseManager:
     def getSelectedWwiseObjects(self):
         args_info={
             "options":{
-                "return":["path", "name", "type"]
+                "return":["path", "name", "type","parent","id"]
             }
         }
         with WaapiClient() as client:
@@ -95,3 +95,35 @@ class WwiseManager:
             self.info = client.call("ak.wwise.core.getInfo")
         pprint(self.info)
         
+    def smartCreateRandomContainer(self):
+        selectItems=self.getSelectedWwiseObjects()
+        selectItems=selectItems['objects']
+        parentId=selectItems[0]['parent']['id']
+
+        self.createRandomContainerAndMoveObjectsIn('new',selectItems,parentId)
+        return selectItems,parentId
+
+    def createRandomContainerAndMoveObjectsIn(self,in_name,in_items,in_parentId):
+
+        createArgs={
+            "parent": in_parentId,
+            "onNameConflict": "replace",
+            "autoAddToSourceControl": True,
+            "type": "RandomSequenceContainer",
+            "name": in_name,
+        }
+
+        with WaapiClient() as client:
+            createResult=client.call("ak.wwise.core.object.create",createArgs)
+            
+            for item in in_items:
+                itemName=item['id']
+                moveArges={
+                    "parent": createResult['id'],
+                    "object": itemName,
+                    "onNameConflict": "replace"
+                }
+                pprint(moveArges)
+                client.call("ak.wwise.core.object.move",moveArges)
+        return
+
