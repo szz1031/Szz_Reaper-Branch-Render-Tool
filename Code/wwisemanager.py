@@ -101,6 +101,15 @@ class WwiseManager:
         itemList=[]
         selectItems=self.getSelectedWwiseObjects()
         selectItems=selectItems['objects']
+        #print("-----Unsorted-----")
+        #pprint(selectItems)
+        #print("------------------")
+        selectItems=sorted(selectItems,key= lambda i:i['name'])  #对选择的item按名字排序
+        #print()
+        #print("-----Sorted-----")
+        #pprint(selectItems)
+        #print("------------------")
+
         parentId=selectItems[0]['parent']['id']
         
         for item in selectItems:
@@ -125,7 +134,7 @@ class WwiseManager:
         return count
 
     def createRandomContainerAndMoveObjectsIn(self,in_name,in_items,in_parentId):
-
+        
         createArgs={
             "parent": in_parentId,
             "onNameConflict": "replace",

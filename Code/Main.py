@@ -1,8 +1,8 @@
 ﻿import os
 import stat
-import time
 import shutil
 import tkinter as tk
+import tkinter.font as tkFont
 import tkinter.filedialog
 from wwisemanager import WwiseManager
 from pprint import pprint
@@ -12,7 +12,7 @@ wpath=''
 wAudiopath=''
 reaperConnect=0
 wwiseConnect=0
-version="0.7.0"
+version="0.7.2"
 
 #---------- Set Global Vars & Functions ----------#
 
@@ -219,7 +219,7 @@ def BranchImportAudioToWwise():
         #ImportAudioToWwise(_fullname,path,wAudiopath)
 
     w.branchImportDirectoryUnderSelectedWwisePath(path,wAudiopath)
-    PringLog("Branch Import Finished")
+    PrintLog("Branch Import Finished")
     
 
 def ImportAudioToWwise(fullpath,folderpath,wroot):
@@ -274,9 +274,14 @@ def CreateRandomContainerForSelectedItems():
 
 
 window=tk.Tk()
-window.title('Peaper Branch Render Tool @SZZ    Version: '+version)
+window.title('Peaper-Wwise Branch Tool @SZZ    Version: '+version)
 window.geometry('1300x600')
 
+
+# Font
+f1 = tkFont.Font(family='microsoft yahei', size=11, weight='bold')
+f2 = tkFont.Font(family='times', size=11, slant='italic')
+f3 = tkFont.Font(family='Helvetica', size=24)
 
 # Frame
 frameReaper=tk.Frame(window,width=300,height=600,relief=tk.SUNKEN,bd=3)
@@ -288,7 +293,7 @@ varTextReaper=tk.StringVar()
 varTextReaper.set("...")   #reaper 连接状态
 labelReaper=tk.Label(frameReaper,textvariable = varTextReaper)
 labelReaper.pack(pady=10)
-buttonReaper=tk.Button(frameReaper,text="ReConnect To Reaper",command = ConnectToReaper)
+buttonReaper=tk.Button(frameReaper,text="Connect To Reaper",command = ConnectToReaper)
 buttonReaper.pack(pady=20,padx=40)
 
 lableNormalize=tk.Label(frameReaper,text="Normalize Loundness")
@@ -303,6 +308,8 @@ varCheckMp3=tk.IntVar()
 checkbuttonMp3=tk.Checkbutton(frameReaper,variable=varCheckMp3,command=CheckMp3)
 checkbuttonMp3.pack()
 
+buttonProcess=tk.Button(frameReaper,text="Start Reaper Process",font=f1, command = BranchProcess)
+buttonProcess.pack(pady=10)
 
 # Wwise
 varTextWwise1=tk.StringVar()
@@ -310,7 +317,7 @@ varTextWwise1.set("...")   #Wwise 连接状态
 labelWwise1=tk.Label(frameWwise,textvariable = varTextWwise1)
 labelWwise1.pack()
 
-buttonWwise1=tk.Button(frameWwise,text="Check Wwise Connection",command = ConnectToWwise)
+buttonWwise1=tk.Button(frameWwise,text="Connect To Wwise",command = ConnectToWwise)
 buttonWwise1.pack(pady=5)
 
 varTextWwise2=tk.StringVar()
@@ -321,10 +328,10 @@ labelWwise2.pack()
 buttonWwise2=tk.Button(frameWwise,text="Update Wwise Path",command = UpdateWwisePath)
 buttonWwise2.pack()
 
-buttonWwise3=tk.Button(frameWwise,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
+buttonWwise3=tk.Button(frameWwise,text="Branch Import Audio To Wwise",font=f1,command = BranchImportAudioToWwise)
 buttonWwise3.pack(pady=20,padx=10)
 
-buttonWwise4=tk.Button(frameWwise,text="Smart Create Random Container",command = SmartCreateRandomContainer)
+buttonWwise4=tk.Button(frameWwise,text="Smart Random Container",font=f1, command = SmartCreateRandomContainer)
 buttonWwise4.pack(pady=0,padx=10)
 
 buttonWwise5=tk.Button(frameWwise,text="Create Random Container For Selected Items",command = CreateRandomContainerForSelectedItems)
@@ -333,19 +340,17 @@ buttonWwise5.pack(pady=5,padx=10)
 # mainProcess
 varTextFolder=tk.StringVar()
 varTextFolder.set("please select a folder")
-labelFolder=tk.Label(frameProcess,textvariable = varTextFolder)
-labelFolder.pack()
+labelFolder=tk.Label(frameProcess,textvariable = varTextFolder,wraplength=250)
+labelFolder.pack(pady=20)
 buttonFolder=tk.Button(frameProcess,text="Change Folder",command = UpdatePath)
-buttonFolder.pack(pady=10)
+buttonFolder.pack(pady=20)
 
-lableProcess=tk.Label(frameProcess,text="是否用Reaper批处理的时候同时导入Wwise")
-lableProcess.pack(padx=20)
+lableProcess=tk.Label(frameProcess,text="Import Processed files into Wwise")
+lableProcess.pack(padx=20,pady=5)
 varCheckProcess=tk.IntVar()
 checkbuttonProcess=tk.Checkbutton(frameProcess,variable=varCheckProcess,command=Check1)
-checkbuttonProcess.pack()
+checkbuttonProcess.pack(pady=4)
 
-buttonProcess=tk.Button(frameProcess,text="Start Branch Process",command = BranchProcess)
-buttonProcess.pack(pady=10)
 
 # pack
 frameReaper.place(x=25,y=30,anchor=tk.NW)
