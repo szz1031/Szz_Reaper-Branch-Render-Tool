@@ -12,7 +12,7 @@ wpath=''
 wAudiopath=''
 reaperConnect=0
 wwiseConnect=0
-version="0.6.0"
+version="0.7.0"
 
 #---------- Set Global Vars & Functions ----------#
 
@@ -212,11 +212,15 @@ def BranchImportAudioToWwise():
         PrintLog("----Please Choose a Folder First----")
         PrintLog("----请先选择一个文件夹----")
         return
-    PrintLog("prepare to import audio to Wwise")
-    for file,root in findallfiles(path):
-        _fullname = os.path.join(root,file)
-        _fullname = os.path.normpath(_fullname)  #去掉反斜杠
-        ImportAudioToWwise(_fullname,path,wAudiopath)
+    PrintLog("Prepare to import audio files")
+    #for file,root in findallfiles(path):
+        #_fullname = os.path.join(root,file)
+        #_fullname = os.path.normpath(_fullname)  #去掉反斜杠
+        #ImportAudioToWwise(_fullname,path,wAudiopath)
+
+    w.branchImportDirectoryUnderSelectedWwisePath(path,wAudiopath)
+    PringLog("Branch Import Finished")
+    
 
 def ImportAudioToWwise(fullpath,folderpath,wroot):
     _relativePath=os.path.relpath(fullpath,folderpath)
@@ -244,23 +248,39 @@ def UpdateWwisePath():
         wpath="Wwise Object Path Unselected"
         
     varTextWwise2.set(wpath)
-    print("Get selected Wwise target: "+wpath)
-    print("Get orignal file path: "+wAudiopath)
+    PrintLog("Get Wwise target: "+wpath)
+    PrintLog("Get Orignal file path: "+wAudiopath)
 
+def SmartCreateRandomContainer():
+    if (wwiseConnect==0):
+        PrintLog("Please Connect To Wwise")
+        return
 
-    
+    num=w.smartCreateRandomContainer()
+    PrintLog("Create "+ str(num)+" Random Containers successfully")
+    return
+
+def CreateRandomContainerForSelectedItems():
+    if (wwiseConnect==0):
+        PrintLog("Please Connect To Wwise")
+        return
+
+    containerName=w.foldSelectedItemsIntoARandomContainer()
+    PrintLog("Create Random Containers Named: "+containerName)
+    return
+
 #------------  Main GUI  -------------#
 
 
 
 window=tk.Tk()
 window.title('Peaper Branch Render Tool @SZZ    Version: '+version)
-window.geometry('1080x500')
+window.geometry('1300x600')
 
 
 # Frame
 frameReaper=tk.Frame(window,width=300,height=600,relief=tk.SUNKEN,bd=3)
-frameWwise=tk.Frame(window,width=200,height=300,relief=tk.SUNKEN,bd=3)
+frameWwise=tk.Frame(window,width=200,height=600,relief=tk.SUNKEN,bd=3)
 frameProcess=tk.Frame(window,width=200,height=100,relief=tk.GROOVE,bd=3)
 
 # Reaper
@@ -304,6 +324,11 @@ buttonWwise2.pack()
 buttonWwise3=tk.Button(frameWwise,text="Branch Import Audio To Wwise",command = BranchImportAudioToWwise)
 buttonWwise3.pack(pady=20,padx=10)
 
+buttonWwise4=tk.Button(frameWwise,text="Smart Create Random Container",command = SmartCreateRandomContainer)
+buttonWwise4.pack(pady=0,padx=10)
+
+buttonWwise5=tk.Button(frameWwise,text="Create Random Container For Selected Items",command = CreateRandomContainerForSelectedItems)
+buttonWwise5.pack(pady=5,padx=10)
 
 # mainProcess
 varTextFolder=tk.StringVar()
@@ -328,8 +353,8 @@ frameWwise.place(x=580,y=30,anchor=tk.NW)
 frameProcess.place(x=270,y=30,anchor=tk.NW)
 
 #Log
-logtext=tk.Text(window,width=110,height=15)
-logtext.place(x=25,y=250,anchor=tk.NW)
+logtext=tk.Text(window,width=140,height=18)
+logtext.place(x=25,y=310,anchor=tk.NW)
 
 
 ConnectToReaper()

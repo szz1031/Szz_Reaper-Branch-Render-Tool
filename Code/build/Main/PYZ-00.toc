@@ -679,9 +679,9 @@
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\multiprocessing\\__init__.py',
    'PYMODULE'),
-  ('tracemalloc',
+  ('typing',
    'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\tracemalloc.py',
+   'studio\\shared\\python37_64\\lib\\typing.py',
    'PYMODULE'),
   ('bz2',
    'c:\\program files (x86)\\microsoft visual '
@@ -691,13 +691,13 @@
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\stringprep.py',
    'PYMODULE'),
+  ('tracemalloc',
+   'c:\\program files (x86)\\microsoft visual '
+   'studio\\shared\\python37_64\\lib\\tracemalloc.py',
+   'PYMODULE'),
   ('_py_abc',
    'c:\\program files (x86)\\microsoft visual '
    'studio\\shared\\python37_64\\lib\\_py_abc.py',
-   'PYMODULE'),
-  ('typing',
-   'c:\\program files (x86)\\microsoft visual '
-   'studio\\shared\\python37_64\\lib\\typing.py',
    'PYMODULE'),
   ('reapy',
    'C:\\Users\\Admin\\AppData\\Roaming\\Python\\Python37\\site-packages\\reapy\\__init__.py',

@@ -43,7 +43,7 @@ class WwiseManager:
             result=client.call("ak.wwise.ui.getSelectedObjects",args_info)
             client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Choose Selected Objects"))
         print("=====Update Selected Objects====")
-        pprint(result)
+        #pprint(result)
         print("================================")
         try:
             self._lastSelectedObject=result['objects'][0]
@@ -96,12 +96,33 @@ class WwiseManager:
         pprint(self.info)
         
     def smartCreateRandomContainer(self):
+        count=0
+        lastNamejoin=''       
+        itemList=[]
         selectItems=self.getSelectedWwiseObjects()
         selectItems=selectItems['objects']
         parentId=selectItems[0]['parent']['id']
+        
+        for item in selectItems:
+            namei=item['name']
+            namesplit=namei.split('_')
+            del namesplit[-1]
+            namejoin='_'.join(str(i) for i in namesplit)
+            if namejoin==lastNamejoin or lastNamejoin=='':
+                itemList.append(item)
+                lastNamejoin=namejoin
+            if namejoin!=lastNamejoin : #完成一个列表
+                if len(itemList)>1:
+                    self.createRandomContainerAndMoveObjectsIn(lastNamejoin,itemList,parentId)
+                    count=count+1
+                itemList=[]
+                itemList.append(item)
+                lastNamejoin=namejoin
 
-        self.createRandomContainerAndMoveObjectsIn('new',selectItems,parentId)
-        return selectItems,parentId
+        if len(itemList)>1:
+            self.createRandomContainerAndMoveObjectsIn(lastNamejoin,itemList,parentId)
+            count=count+1
+        return count
 
     def createRandomContainerAndMoveObjectsIn(self,in_name,in_items,in_parentId):
 
@@ -123,7 +144,58 @@ class WwiseManager:
                     "object": itemName,
                     "onNameConflict": "replace"
                 }
-                pprint(moveArges)
+                #pprint(moveArges)
                 client.call("ak.wwise.core.object.move",moveArges)
         return
 
+    def foldSelectedItemsIntoARandomContainer(self):
+        selectItems=self.getSelectedWwiseObjects()
+        selectItems=selectItems['objects']
+        parentId=selectItems[0]['parent']['id']
+        name0=selectItems[0]['name']
+        namesplit=name0.split('_')
+        del namesplit[-1]
+        namejoin='_'.join(str(i) for i in namesplit)
+        self.createRandomContainerAndMoveObjectsIn(namejoin,selectItems,parentId)
+        return namejoin
+
+
+    def findallfiles(self,path):                     # 遍历文件夹的generator，包括子文件夹，返回（文件名，文件地址）
+        for root,dirs,files in os.walk(path):
+            for file in files:            
+                yield file,root 
+
+    def branchImportDirectoryUnderSelectedWwisePath(self,in_osPath,in_originalPath):
+        args={
+            "importOperation": "replaceExisting",
+            "autoAddToSourceControl": True,
+            "default":{
+                "importLanguage": "SFX"
+            },
+            "imports":[]
+        }
+        
+        for file,root in self.findallfiles(in_osPath):
+            _fullname = os.path.join(root,file)
+            _fullname = os.path.normpath(_fullname)  #去掉反斜杠
+            
+            filepath,fullname=os.path.split(_fullname)
+            fname,ext=os.path.splitext(fullname)
+
+            newImport={
+                    "objectPath":self._lastSelectedObject['path']+"\\<Sound>"+fname,
+                    "audioFile": _fullname,
+                    "originalsSubFolder": in_originalPath
+                }
+
+            args['imports'].append(newImport)
+            
+        print("---------Import---------")
+        pprint(args)
+        print("------------------")
+        with WaapiClient() as client:
+            client.call("ak.wwise.core.audio.import",args)
+            client.call("ak.soundengine.postMsgMonitor",self._msgToArgs("Import "+in_osPath))
+
+
+        return
