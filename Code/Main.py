@@ -256,7 +256,7 @@ def SmartCreateRandomContainer():
         PrintLog("Please Connect To Wwise")
         return
 
-    num=w.smartCreateRandomContainer()
+    num=w.smartCreateRandomContainer(varCheckShuffle.get(),varRepeat.get())
     PrintLog("Create "+ str(num)+" Random Containers successfully")
     return
 
@@ -275,7 +275,7 @@ def CreateRandomContainerForSelectedItems():
 
 window=tk.Tk()
 window.title('Peaper-Wwise Branch Tool @SZZ    Version: '+version)
-window.geometry('1300x600')
+window.geometry('1400x600')
 
 
 # Font
@@ -286,7 +286,8 @@ f3 = tkFont.Font(family='Helvetica', size=24)
 # Frame
 frameReaper=tk.Frame(window,width=300,height=600,relief=tk.SUNKEN,bd=3)
 frameWwise=tk.Frame(window,width=200,height=600,relief=tk.SUNKEN,bd=3)
-frameProcess=tk.Frame(window,width=200,height=100,relief=tk.GROOVE,bd=3)
+frameWwiseSRC=tk.Frame(window,width=300,height=150,relief=tk.SUNKEN,bd=2)
+frameProcess=tk.Frame(window,width=300,height=600,relief=tk.GROOVE,bd=3)
 
 # Reaper
 varTextReaper=tk.StringVar()
@@ -331,15 +332,31 @@ buttonWwise2.pack()
 buttonWwise3=tk.Button(frameWwise,text="Branch Import Audio To Wwise",font=f1,command = BranchImportAudioToWwise)
 buttonWwise3.pack(pady=20,padx=10)
 
-buttonWwise4=tk.Button(frameWwise,text="Smart Random Container",font=f1, command = SmartCreateRandomContainer)
-buttonWwise4.pack(pady=0,padx=10)
-
 buttonWwise5=tk.Button(frameWwise,text="Create Random Container For Selected Items",command = CreateRandomContainerForSelectedItems)
 buttonWwise5.pack(pady=5,padx=10)
 
+#SRC
+buttonWwise4=tk.Button(frameWwiseSRC,text="Smart Random Container",font=f1, command = SmartCreateRandomContainer)
+buttonWwise4.place(x=25,y=5)
+
+lableProcess=tk.Label(frameWwiseSRC,text="Shuffle?",font=f2)
+lableProcess.place(x=25,y=45)
+varCheckShuffle=tk.IntVar()
+varCheckShuffle.set(1)
+checkbuttonProcess=tk.Checkbutton(frameWwiseSRC,variable=varCheckShuffle)
+checkbuttonProcess.place(x=44,y=75)
+
+lableProcess=tk.Label(frameWwiseSRC,text="Repeat Avoid",font=f2)
+lableProcess.place(x=130,y=45)
+varRepeat=tk.IntVar()
+varRepeat.set(1)
+entry1 = tk.Entry(frameWwiseSRC, textvariable=varRepeat,width=4)
+entry1.place(x=165,y=78)
+
+
 # mainProcess
 varTextFolder=tk.StringVar()
-varTextFolder.set("please select a folder")
+varTextFolder.set("Please select a folder")
 labelFolder=tk.Label(frameProcess,textvariable = varTextFolder,wraplength=250)
 labelFolder.pack(pady=20)
 buttonFolder=tk.Button(frameProcess,text="Change Folder",command = UpdatePath)
@@ -354,8 +371,9 @@ checkbuttonProcess.pack(pady=4)
 
 # pack
 frameReaper.place(x=25,y=30,anchor=tk.NW)
-frameWwise.place(x=580,y=30,anchor=tk.NW)
+frameWwise.place(x=550,y=30,anchor=tk.NW)
 frameProcess.place(x=270,y=30,anchor=tk.NW)
+frameWwiseSRC.place(x=853,y=30,anchor=tk.NW)
 
 #Log
 logtext=tk.Text(window,width=140,height=18)

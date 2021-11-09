@@ -95,20 +95,13 @@ class WwiseManager:
             self.info = client.call("ak.wwise.core.getInfo")
         pprint(self.info)
         
-    def smartCreateRandomContainer(self):
+    def smartCreateRandomContainer(self,in_Shuffle=True,in_RepeatAvoid=1):
         count=0
         lastNamejoin=''       
         itemList=[]
         selectItems=self.getSelectedWwiseObjects()
         selectItems=selectItems['objects']
-        #print("-----Unsorted-----")
-        #pprint(selectItems)
-        #print("------------------")
         selectItems=sorted(selectItems,key= lambda i:i['name'])  #对选择的item按名字排序
-        #print()
-        #print("-----Sorted-----")
-        #pprint(selectItems)
-        #print("------------------")
 
         parentId=selectItems[0]['parent']['id']
         
@@ -122,18 +115,18 @@ class WwiseManager:
                 lastNamejoin=namejoin
             if namejoin!=lastNamejoin : #完成一个列表
                 if len(itemList)>1:
-                    self.createRandomContainerAndMoveObjectsIn(lastNamejoin,itemList,parentId)
+                    self.createRandomContainerAndMoveObjectsIn(lastNamejoin,itemList,parentId,in_Shuffle,in_RepeatAvoid)
                     count=count+1
                 itemList=[]
                 itemList.append(item)
                 lastNamejoin=namejoin
 
         if len(itemList)>1:
-            self.createRandomContainerAndMoveObjectsIn(lastNamejoin,itemList,parentId)
+            self.createRandomContainerAndMoveObjectsIn(lastNamejoin,itemList,parentId,in_Shuffle,in_RepeatAvoid)
             count=count+1
         return count
 
-    def createRandomContainerAndMoveObjectsIn(self,in_name,in_items,in_parentId):
+    def createRandomContainerAndMoveObjectsIn(self,in_name,in_items,in_parentId,in_isShuffle=True,in_repeatAvoidNum=1):
         
         createArgs={
             "parent": in_parentId,
@@ -141,6 +134,8 @@ class WwiseManager:
             "autoAddToSourceControl": True,
             "type": "RandomSequenceContainer",
             "name": in_name,
+            "@NormalOrShuffle":1-in_isShuffle,
+            "@RandomAvoidRepeatingCount": in_repeatAvoidNum
         }
 
         with WaapiClient() as client:
