@@ -253,7 +253,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>'org.python'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#copy">copy</a>
+    <a href="#pickle">pickle</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
 
   </div>
@@ -316,17 +316,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="StringIO"></a>
-  <a target="code" href="" type="text/plain"><tt>StringIO</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#six">six</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="__future__"></a>
   <a target="code" href="///C:/program%20files%20%28x86%29/microsoft%20visual%20studio/shared/python37_64/lib/__future__.py" type="text/plain"><tt>__future__</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -336,7 +325,6 @@ imported by:
  &#8226;   <a href="#psutil">psutil</a>
  &#8226;   <a href="#psutil._common">psutil._common</a>
  &#8226;   <a href="#psutil._pslinux">psutil._pslinux</a>
- &#8226;   <a href="#six">six</a>
 
   </div>
 
@@ -1318,6 +1306,7 @@ imported by:
  &#8226;   <a href="#selectors">selectors</a>
  &#8226;   <a href="#txaio.interfaces">txaio.interfaces</a>
  &#8226;   <a href="#typing">typing</a>
+ &#8226;   <a href="#waapi.client.interface">waapi.client.interface</a>
 
   </div>
 
@@ -2168,7 +2157,6 @@ imported by:
  &#8226;   <a href="#autobahn.wamp.role">autobahn.wamp.role</a>
  &#8226;   <a href="#autobahn.websocket">autobahn.websocket</a>
  &#8226;   <a href="#autobahn.websocket.protocol">autobahn.websocket.protocol</a>
- &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
   </div>
 
@@ -2309,6 +2297,7 @@ imports:
 imported by:
     <a href="#autobahn.asyncio">autobahn.asyncio</a>
  &#8226;   <a href="#autobahn.asyncio.wamp">autobahn.asyncio.wamp</a>
+ &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
   </div>
 
@@ -2407,7 +2396,6 @@ imported by:
  &#8226;   <a href="#autobahn.websocket.protocol">autobahn.websocket.protocol</a>
  &#8226;   <a href="#autobahn.websocket.types">autobahn.websocket.types</a>
  &#8226;   <a href="#autobahn.websocket.util">autobahn.websocket.util</a>
- &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
   </div>
 
@@ -2421,7 +2409,9 @@ imports:
     <a href="#autobahn">autobahn</a>
  &#8226;   <a href="#autobahn.wamp.exception">autobahn.wamp.exception</a>
  &#8226;   <a href="#autobahn.wamp.interfaces">autobahn.wamp.interfaces</a>
+ &#8226;   <a href="#autobahn.wamp.message">autobahn.wamp.message</a>
  &#8226;   <a href="#autobahn.wamp.message_fbs">autobahn.wamp.message_fbs</a>
+ &#8226;   <a href="#autobahn.wamp.protocol">autobahn.wamp.protocol</a>
  &#8226;   <a href="#autobahn.wamp.serializer">autobahn.wamp.serializer</a>
  &#8226;   <a href="#autobahn.wamp.types">autobahn.wamp.types</a>
  &#8226;   <a href="#autobahn.wamp.uri">autobahn.wamp.uri</a>
@@ -2664,7 +2654,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#autobahn.wamp.protocol">autobahn.wamp.protocol</a>
+    <a href="#autobahn.wamp">autobahn.wamp</a>
+ &#8226;   <a href="#autobahn.wamp.protocol">autobahn.wamp.protocol</a>
  &#8226;   <a href="#autobahn.wamp.serializer">autobahn.wamp.serializer</a>
  &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
@@ -2721,6 +2712,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#autobahn.asyncio.wamp">autobahn.asyncio.wamp</a>
+ &#8226;   <a href="#autobahn.wamp">autobahn.wamp</a>
  &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
   </div>
@@ -3119,6 +3111,7 @@ imports:
 imported by:
     <a href="#autobahn.asyncio.wamp">autobahn.asyncio.wamp</a>
  &#8226;   <a href="#autobahn.websocket.protocol">autobahn.websocket.protocol</a>
+ &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
   </div>
 
@@ -3867,8 +3860,8 @@ imported by:
   <a target="code" href="///C:/program%20files%20%28x86%29/microsoft%20visual%20studio/shared/python37_64/lib/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#copyreg">copyreg</a>
+    <a href="#copyreg">copyreg</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
@@ -7849,7 +7842,6 @@ imported by:
  &#8226;   <a href="#reapy.tools._inside_reaper">reapy.tools._inside_reaper</a>
  &#8226;   <a href="#reapy.tools.extension_dependency">reapy.tools.extension_dependency</a>
  &#8226;   <a href="#signal">signal</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#tempfile">tempfile</a>
  &#8226;   <a href="#test.support">test.support</a>
  &#8226;   <a href="#test.support.testresult">test.support.testresult</a>
@@ -8587,7 +8579,6 @@ imported by:
  &#8226;   <a href="#py_compile">py_compile</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#runpy">runpy</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#test.support">test.support</a>
  &#8226;   <a href="#zipfile">zipfile</a>
 
@@ -8695,7 +8686,6 @@ imported by:
  &#8226;   <a href="#quopri">quopri</a>
  &#8226;   <a href="#reapy.core.reaper.reaper">reapy.core.reaper.reaper</a>
  &#8226;   <a href="#shlex">shlex</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#smtplib">smtplib</a>
  &#8226;   <a href="#socket">socket</a>
  &#8226;   <a href="#socketserver">socketserver</a>
@@ -8743,7 +8733,6 @@ imported by:
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#reprlib">reprlib</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#tkinter.font">tkinter.font</a>
  &#8226;   <a href="#tokenize">tokenize</a>
@@ -9981,7 +9970,6 @@ imported by:
  &#8226;   <a href="#lib2to3.refactor">lib2to3.refactor</a>
  &#8226;   <a href="#pathlib">pathlib</a>
  &#8226;   <a href="#reapy.tools.json">reapy.tools.json</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#typing">typing</a>
 
   </div>
@@ -10012,7 +10000,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>org</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#pickle">pickle</a>
+    <a href="#copy">copy</a>
 
   </div>
 
@@ -10239,7 +10227,8 @@ imported by:
   <a target="code" href="///C:/program%20files%20%28x86%29/microsoft%20visual%20studio/shared/python37_64/lib/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#copyreg">copyreg</a>
@@ -10247,7 +10236,6 @@ imports:
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
- &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -10987,6 +10975,7 @@ imported by:
  &#8226;   <a href="#multiprocessing.managers">multiprocessing.managers</a>
  &#8226;   <a href="#multiprocessing.pool">multiprocessing.pool</a>
  &#8226;   <a href="#multiprocessing.queues">multiprocessing.queues</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
 
   </div>
 
@@ -11038,6 +11027,7 @@ imported by:
  &#8226;   <a href="#email.utils">email.utils</a>
  &#8226;   <a href="#reapy.config.config">reapy.config.config</a>
  &#8226;   <a href="#tempfile">tempfile</a>
+ &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
 
   </div>
 
@@ -12554,32 +12544,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="six"></a>
-  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/six.py" type="text/plain"><tt>six</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#StringIO">StringIO</a>
- &#8226;   <a href="#__future__">__future__</a>
- &#8226;   <a href="#functools">functools</a>
- &#8226;   <a href="#importlib.util">importlib.util</a>
- &#8226;   <a href="#io">io</a>
- &#8226;   <a href="#itertools">itertools</a>
- &#8226;   <a href="#operator">operator</a>
- &#8226;   <a href="#struct">struct</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#types">types</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
- &#8226;   <a href="#waapi.wamp.async_compatibility">waapi.wamp.async_compatibility</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="snappy"></a>
   <a target="code" href="" type="text/plain"><tt>snappy</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -12866,7 +12830,6 @@ imported by:
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#psutil._compat">psutil._compat</a>
  &#8226;   <a href="#psutil._pslinux">psutil._pslinux</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#test.support">test.support</a>
  &#8226;   <a href="#zipfile">zipfile</a>
@@ -13060,7 +13023,6 @@ imported by:
  &#8226;   <a href="#selectors">selectors</a>
  &#8226;   <a href="#shlex">shlex</a>
  &#8226;   <a href="#shutil">shutil</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#smtplib">smtplib</a>
  &#8226;   <a href="#socket">socket</a>
  &#8226;   <a href="#socketserver">socketserver</a>
@@ -13092,6 +13054,7 @@ imported by:
  &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#uu">uu</a>
  &#8226;   <a href="#waapi.client.client">waapi.client.client</a>
+ &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
  &#8226;   <a href="#warnings">warnings</a>
  &#8226;   <a href="#weakref">weakref</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
@@ -13287,6 +13250,7 @@ imported by:
  &#8226;   <a href="#socketserver">socketserver</a>
  &#8226;   <a href="#subprocess">subprocess</a>
  &#8226;   <a href="#test.support">test.support</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
  &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
  &#8226;   <a href="#waapi.wamp.async_decoupled_client">waapi.wamp.async_decoupled_client</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
@@ -13587,17 +13551,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="trollius"></a>
-  <a target="code" href="" type="text/plain"><tt>trollius</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#waapi.wamp.async_compatibility">waapi.wamp.async_compatibility</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="tty"></a>
   <a target="code" href="///C:/program%20files%20%28x86%29/microsoft%20visual%20studio/shared/python37_64/lib/tty.py" type="text/plain"><tt>tty</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -13866,7 +13819,6 @@ imported by:
  &#8226;   <a href="#psutil._compat">psutil._compat</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#runpy">runpy</a>
- &#8226;   <a href="#six">six</a>
  &#8226;   <a href="#sysconfig">sysconfig</a>
  &#8226;   <a href="#test.support">test.support</a>
  &#8226;   <a href="#txaio.aio">txaio.aio</a>
@@ -14351,7 +14303,7 @@ imported by:
 
 <div class="node">
   <a name="waapi"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/__init__.py" type="text/plain"><tt>waapi</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/__init__.py" type="text/plain"><tt>waapi</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
 imports:
     <a href="#waapi.client">waapi.client</a>
@@ -14369,12 +14321,13 @@ imported by:
 
 <div class="node">
   <a name="waapi.client"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/client/__init__.py" type="text/plain"><tt>waapi.client</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/client/__init__.py" type="text/plain"><tt>waapi.client</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
 imports:
     <a href="#waapi">waapi</a>
  &#8226;   <a href="#waapi.client.client">waapi.client.client</a>
  &#8226;   <a href="#waapi.client.event">waapi.client.event</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
 
   </div>
   <div class="import">
@@ -14382,6 +14335,7 @@ imported by:
     <a href="#waapi">waapi</a>
  &#8226;   <a href="#waapi.client.client">waapi.client.client</a>
  &#8226;   <a href="#waapi.client.event">waapi.client.event</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
  &#8226;   <a href="#waapi.client.interface">waapi.client.interface</a>
 
   </div>
@@ -14390,13 +14344,14 @@ imported by:
 
 <div class="node">
   <a name="waapi.client.client"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/client/client.py" type="text/plain"><tt>waapi.client.client</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/client/client.py" type="text/plain"><tt>waapi.client.client</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#copy">copy</a>
  &#8226;   <a href="#sys">sys</a>
  &#8226;   <a href="#waapi.client">waapi.client</a>
  &#8226;   <a href="#waapi.client.event">waapi.client.event</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
  &#8226;   <a href="#waapi.client.interface">waapi.client.interface</a>
  &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
  &#8226;   <a href="#waapi.wamp.async_compatibility">waapi.wamp.async_compatibility</a>
@@ -14414,7 +14369,7 @@ imported by:
 
 <div class="node">
   <a name="waapi.client.event"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/client/event.py" type="text/plain"><tt>waapi.client.event</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/client/event.py" type="text/plain"><tt>waapi.client.event</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#autobahn.wamp.request">autobahn.wamp.request</a>
@@ -14431,16 +14386,40 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="waapi.client.interface"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/client/interface.py" type="text/plain"><tt>waapi.client.interface</tt></a>
+  <a name="waapi.client.executor"></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/client/executor.py" type="text/plain"><tt>waapi.client.executor</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
+    <a href="#queue">queue</a>
+ &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#waapi.client">waapi.client</a>
+ &#8226;   <a href="#waapi.client.interface">waapi.client.interface</a>
+ &#8226;   <a href="#waapi.wamp.async_compatibility">waapi.wamp.async_compatibility</a>
+
+  </div>
+  <div class="import">
+imported by:
     <a href="#waapi.client">waapi.client</a>
+ &#8226;   <a href="#waapi.client.client">waapi.client.client</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="waapi.client.interface"></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/client/interface.py" type="text/plain"><tt>waapi.client.interface</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#abc">abc</a>
+ &#8226;   <a href="#waapi.client">waapi.client</a>
 
   </div>
   <div class="import">
 imported by:
     <a href="#waapi.client.client">waapi.client.client</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
+ &#8226;   <a href="#waapi.wamp.async_decoupled_client">waapi.wamp.async_decoupled_client</a>
 
   </div>
 
@@ -14448,7 +14427,7 @@ imported by:
 
 <div class="node">
   <a name="waapi.wamp"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/wamp/__init__.py" type="text/plain"><tt>waapi.wamp</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/wamp/__init__.py" type="text/plain"><tt>waapi.wamp</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
 imports:
     <a href="#waapi">waapi</a>
@@ -14467,12 +14446,11 @@ imported by:
 
 <div class="node">
   <a name="waapi.wamp.ak_autobahn"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/wamp/ak_autobahn.py" type="text/plain"><tt>waapi.wamp.ak_autobahn</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/wamp/ak_autobahn.py" type="text/plain"><tt>waapi.wamp.ak_autobahn</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#autobahn">autobahn</a>
- &#8226;   <a href="#autobahn.asyncio.wamp">autobahn.asyncio.wamp</a>
- &#8226;   <a href="#autobahn.util">autobahn.util</a>
+    <a href="#autobahn.asyncio.wamp">autobahn.asyncio.wamp</a>
+ &#8226;   <a href="#autobahn.asyncio.websocket">autobahn.asyncio.websocket</a>
  &#8226;   <a href="#autobahn.wamp">autobahn.wamp</a>
  &#8226;   <a href="#autobahn.wamp.exception">autobahn.wamp.exception</a>
  &#8226;   <a href="#autobahn.wamp.message">autobahn.wamp.message</a>
@@ -14480,9 +14458,11 @@ imports:
  &#8226;   <a href="#autobahn.wamp.request">autobahn.wamp.request</a>
  &#8226;   <a href="#autobahn.wamp.types">autobahn.wamp.types</a>
  &#8226;   <a href="#autobahn.wamp.uri">autobahn.wamp.uri</a>
+ &#8226;   <a href="#autobahn.websocket.util">autobahn.websocket.util</a>
  &#8226;   <a href="#inspect">inspect</a>
  &#8226;   <a href="#pprint">pprint</a>
- &#8226;   <a href="#six">six</a>
+ &#8226;   <a href="#random">random</a>
+ &#8226;   <a href="#sys">sys</a>
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#txaio">txaio</a>
  &#8226;   <a href="#waapi.wamp">waapi.wamp</a>
@@ -14501,12 +14481,10 @@ imported by:
 
 <div class="node">
   <a name="waapi.wamp.async_compatibility"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/wamp/async_compatibility.py" type="text/plain"><tt>waapi.wamp.async_compatibility</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/wamp/async_compatibility.py" type="text/plain"><tt>waapi.wamp.async_compatibility</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#asyncio">asyncio</a>
- &#8226;   <a href="#six">six</a>
- &#8226;   <a href="#trollius">trollius</a>
  &#8226;   <a href="#txaio">txaio</a>
  &#8226;   <a href="#waapi.wamp">waapi.wamp</a>
 
@@ -14514,6 +14492,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#waapi.client.client">waapi.client.client</a>
+ &#8226;   <a href="#waapi.client.executor">waapi.client.executor</a>
  &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
  &#8226;   <a href="#waapi.wamp.async_decoupled_client">waapi.wamp.async_decoupled_client</a>
 
@@ -14523,13 +14502,14 @@ imported by:
 
 <div class="node">
   <a name="waapi.wamp.async_decoupled_client"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/wamp/async_decoupled_client.py" type="text/plain"><tt>waapi.wamp.async_decoupled_client</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/wamp/async_decoupled_client.py" type="text/plain"><tt>waapi.wamp.async_decoupled_client</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#autobahn.wamp">autobahn.wamp</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#threading">threading</a>
+ &#8226;   <a href="#waapi.client.interface">waapi.client.interface</a>
  &#8226;   <a href="#waapi.wamp">waapi.wamp</a>
  &#8226;   <a href="#waapi.wamp.ak_autobahn">waapi.wamp.ak_autobahn</a>
  &#8226;   <a href="#waapi.wamp.async_compatibility">waapi.wamp.async_compatibility</a>
@@ -14546,7 +14526,7 @@ imported by:
 
 <div class="node">
   <a name="waapi.wamp.interface"></a>
-  <a target="code" href="///D:/waapitest/waapi-client-python/waapi/wamp/interface.py" type="text/plain"><tt>waapi.wamp.interface</tt></a>
+  <a target="code" href="///C:/Users/Admin/AppData/Roaming/Python/Python37/site-packages/waapi/wamp/interface.py" type="text/plain"><tt>waapi.wamp.interface</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#autobahn.wamp">autobahn.wamp</a>
